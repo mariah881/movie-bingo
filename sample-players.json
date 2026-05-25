@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Alice",
+    "phrases": [
+      "may the force be with you",
+      "I am your father",
+      "help me obi wan"
+    ]
+  },
+  {
+    "name": "Bob",
+    "phrases": [
+      "I'll be back",
+      "come with me if you want to live",
+      "hasta la vista baby"
+    ]
+  }
+]
