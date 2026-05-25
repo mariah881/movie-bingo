@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { BingoOverlay } from "../components/BingoOverlay";
+import { MicTest } from "../components/MicTest";
 import { TranscriptPanel } from "../components/TranscriptPanel";
 import { VolumeMeter } from "../components/VolumeMeter";
 import { useMicrophone } from "../hooks/useMicrophone";
@@ -88,7 +89,7 @@ export function GamePage({ players, onPlayersChange }: Props) {
     enabled: listening,
   });
 
-  useEffect(() => {
+  const checkHealth = useCallback(() => {
     fetch("/api/health")
       .then((r) => r.json())
       .then((d: { ok?: boolean; elevenLabsConfigured?: boolean }) => {
@@ -96,6 +97,10 @@ export function GamePage({ players, onPlayersChange }: Props) {
       })
       .catch(() => setServerOk(false));
   }, []);
+
+  useEffect(() => {
+    checkHealth();
+  }, [checkHealth]);
 
   const resetRound = () => {
     const reset = players.map((p) => ({
@@ -127,9 +132,17 @@ export function GamePage({ players, onPlayersChange }: Props) {
 
       {serverOk === false && (
         <div className="banner banner--error">
-          Server or ElevenLabs API key not ready. Copy <code>.env.example</code> to{" "}
-          <code>.env</code> in the project root and set <code>ELEVENLABS_API_KEY</code>, then run{" "}
-          <code>npm run dev</code>.
+          <p>
+            <strong>ElevenLabs not connected.</strong> In the project root, run{" "}
+            <code>cp .env.example .env</code>, add your key from{" "}
+            <a href="https://elevenlabs.io/app/settings/api-keys" target="_blank" rel="noreferrer">
+              elevenlabs.io
+            </a>
+            , restart <code>npm run dev</code>.
+          </p>
+          <button type="button" className="btn btn--small btn--secondary" onClick={checkHealth}>
+            Check again
+          </button>
         </div>
       )}
 
@@ -168,6 +181,8 @@ export function GamePage({ players, onPlayersChange }: Props) {
         </label>
 
         <VolumeMeter volume={volume} active={active} />
+
+        <MicTest deviceId={deviceId || undefined} disabled={listening || serverOk === false} />
 
         <div className="row">
           {!listening ? (

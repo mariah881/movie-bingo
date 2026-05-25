@@ -87,6 +87,18 @@ export function SetupPage({ players, onPlayersChange }: Props) {
     reader.readAsText(file);
   };
 
+  const loadSample = async () => {
+    setImportError(null);
+    try {
+      const res = await fetch("/sample-players.json");
+      if (!res.ok) throw new Error("Could not load sample file");
+      const imported = importPlayersJson(await res.text());
+      persist(imported);
+    } catch (e) {
+      setImportError(e instanceof Error ? e.message : "Failed to load sample");
+    }
+  };
+
   return (
     <div className="page">
       <header className="page-header">
@@ -113,6 +125,9 @@ export function SetupPage({ players, onPlayersChange }: Props) {
       </section>
 
       <section className="card row">
+        <button type="button" className="btn btn--secondary" onClick={() => void loadSample()}>
+          Load sample cards
+        </button>
         <button type="button" className="btn btn--secondary" onClick={handleExport}>
           Export JSON
         </button>

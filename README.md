@@ -1,5 +1,7 @@
 # Movie Bingo
 
+**Repository:** https://github.com/mariah881/movie-bingo
+
 Watch-party bingo powered by your **microphone** and **ElevenLabs Scribe** speech-to-text. When dialogue from a movie or series matches a phrase on a player's card, the app shows:
 
 **BINGO FOR [Player Name]**

@@ -171,6 +171,22 @@ label {
   transition: width 0.1s;
 }
 
+.mic-test {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mic-test__result {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.banner--error p {
+  margin: 0 0 0.75rem;
+}
+
 .transcript-panel pre {
   white-space: pre-wrap;
   word-break: break-word;
